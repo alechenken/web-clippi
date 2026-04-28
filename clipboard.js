@@ -98,6 +98,88 @@ function renderTextPlain(blob) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Table helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Converts an HTMLTableElement to a CSV string.
+ * Handles colspan by repeating the cell value across spanned columns.
+ */
+function tableToCSV(table) {
+  const rows = Array.from(table.querySelectorAll("tr"));
+  return rows
+    .map((row) => {
+      const cells = Array.from(row.querySelectorAll("th, td"));
+      return cells
+        .flatMap((cell) => {
+          const span = parseInt(cell.getAttribute("colspan") || "1", 10);
+          const val = cell.innerText.replace(/"/g, '""').replace(/\n/g, " ");
+          return Array(span).fill(`"${val}"`);
+        })
+        .join(",");
+    })
+    .join("\r\n");
+}
+
+/**
+ * Given an HTML string, extracts all <table> elements,
+ * renders each with a CSV download button, and returns
+ * a container element (or null if no tables found).
+ */
+function renderTablesFromHTML(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const tables = Array.from(doc.querySelectorAll("table"));
+  if (tables.length === 0) return null;
+
+  const container = document.createElement("section");
+  container.className = "item-section tables-container";
+
+  const header = document.createElement("div");
+  header.className = "format-header";
+  const badge = document.createElement("span");
+  badge.className = "mime-badge";
+  badge.textContent = `${tables.length} table${tables.length !== 1 ? "s" : ""} extracted from HTML`;
+  header.appendChild(badge);
+  container.appendChild(header);
+
+  tables.forEach((table, i) => {
+    const block = document.createElement("div");
+    block.className = "table-block";
+
+    // Label
+    const label = document.createElement("p");
+    label.className = "table-label";
+    label.textContent = tables.length > 1 ? `Table ${i + 1}` : "Table";
+    block.appendChild(label);
+
+    // Scrollable rendered table
+    const scroll = document.createElement("div");
+    scroll.className = "table-scroll";
+    // Clone the table node from the parsed doc into the live document
+    const liveTable = document.adoptNode(table.cloneNode(true));
+    liveTable.className = (liveTable.className ? liveTable.className + " " : "") + "extracted-table";
+    scroll.appendChild(liveTable);
+    block.appendChild(scroll);
+
+    // CSV download
+    const csv = tableToCSV(liveTable);
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const dl = document.createElement("a");
+    dl.href = url;
+    dl.download = tables.length > 1 ? `clipboard-table-${i + 1}.csv` : "clipboard-table.csv";
+    dl.className = "download-btn download-btn--csv";
+    dl.textContent = "Download CSV";
+    block.appendChild(dl);
+
+    container.appendChild(block);
+  });
+
+  return container;
+}
+
 function renderTextHtml(blob) {
   return blob.text().then((html) => {
     const wrapper = document.createElement("div");
@@ -110,6 +192,10 @@ function renderTextHtml(blob) {
     iframe.setAttribute("title", "HTML clipboard preview");
     iframe.srcdoc = html;
     wrapper.appendChild(iframe);
+
+    // Tables extracted from the HTML
+    const tablesEl = renderTablesFromHTML(html);
+    if (tablesEl) wrapper.appendChild(tablesEl);
 
     // Source view
     const details = document.createElement("details");
@@ -408,6 +494,14 @@ function handlePaste(e) {
       details.appendChild(summary);
       details.appendChild(pre);
       contentDiv.appendChild(details);
+
+      section.appendChild(contentDiv);
+      results.appendChild(section);
+
+      // Tables get their own independent section
+      const tablesEl = renderTablesFromHTML(text);
+      if (tablesEl) results.appendChild(tablesEl);
+      continue;
     } else {
       const text = dt.getData(type);
       const pre = document.createElement("pre");

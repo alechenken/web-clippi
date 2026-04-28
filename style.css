@@ -240,6 +240,72 @@ details[open] summary {
   margin-bottom: 0.4rem;
 }
 
+/* ── Extracted tables ─────────────────────────────────────── */
+.tables-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tables-container > .format-header {
+  background: var(--surface2);
+  padding: 0.45rem 1rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+
+.tables-container > .table-block {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.tables-container > .table-block:last-child {
+  border-bottom: none;
+}
+
+.table-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.table-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.extracted-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.extracted-table th,
+.extracted-table td {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.extracted-table th {
+  background: var(--surface2);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.extracted-table tr:nth-child(even) td {
+  background: var(--surface);
+}
+
 .content-image {
   max-width: 100%;
   max-height: 320px;
@@ -284,6 +350,15 @@ details[open] summary {
 
 .download-btn:hover {
   background: var(--accent-dim);
+}
+
+.download-btn--csv {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+.download-btn--csv:hover {
+  background: rgba(74, 222, 128, 0.12);
 }
 
 /* ── Coverage table ───────────────────────────────────────── */
