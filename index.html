@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Windows Clipboard Viewer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Header ───────────────────────────────────────────── -->
+  <header>
+    <h1>Windows <span>Clipboard Viewer</span></h1>
+    <p>
+      Inspect all clipboard contents that the browser can access — including text,
+      HTML, images, and files — and see how each maps to standard Windows
+      <code>CF_*</code> clipboard format identifiers.
+    </p>
+  </header>
+
+  <!-- ── Main ─────────────────────────────────────────────── -->
+  <main>
+
+    <!-- Intro / limitation notice -->
+    <div class="intro-box" role="note">
+      <p>
+        <strong>How this works:</strong> The browser Clipboard API exposes data as MIME-typed
+        blobs, not raw Windows clipboard handles. The table below maps what the browser can read
+        to the corresponding Windows <code>CF_*</code> format — and identifies which formats are
+        permanently blocked by the browser sandbox.
+      </p>
+      <ul>
+        <li><code>CF_TEXT</code> / <code>CF_UNICODETEXT</code> — available as <code>text/plain</code></li>
+        <li><code>HTML Format</code> — available as <code>text/html</code></li>
+        <li><code>CF_BITMAP</code> / <code>CF_DIB</code> — available as <code>image/png</code> (browser converts)</li>
+        <li><code>CF_HDROP</code> — partially available via paste event (file names and sizes; <em>not</em> full paths)</li>
+        <li class="blocked-list">
+          <code>CF_ENHMETAFILE</code>, <code>CF_METAFILEPICT</code>, <code>CF_LOCALE</code>
+          — <strong>not accessible</strong> from any browser page; require native Win32 access
+        </li>
+      </ul>
+    </div>
+
+    <!-- Paste instruction -->
+    <p class="paste-hint">Press <kbd>Ctrl+V</kbd> anywhere on the page to inspect your clipboard.</p>
+
+    <!-- Status line -->
+    <p id="status" class="status" aria-live="polite"></p>
+
+    <!-- Per-format results -->
+    <div id="results" aria-label="Clipboard contents"></div>
+
+    <!-- CF_* coverage table (hidden until data is available) -->
+    <section id="coverage-section" hidden aria-label="Windows clipboard format coverage">
+      <h2>Windows Clipboard Format Coverage</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Windows Format</th>
+              <th>CF Value</th>
+              <th>Browser MIME / Source</th>
+              <th>Status</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="coverage-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ───────────────────────────────────────────── -->
+  <footer>
+    <span><span class="dot green"></span> Available via Clipboard API</span>
+    <span><span class="dot yellow"></span> Partial — browser limits apply</span>
+    <span><span class="dot red"></span> Blocked by browser sandbox</span>
+    <span>Requires HTTPS or localhost · Chrome / Edge 76+ recommended</span>
+  </footer>
+
+  <script src="clipboard.js"></script>
+</body>
+</html>

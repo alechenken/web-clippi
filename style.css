@@ -1,0 +1,427 @@
+/* ============================================================
+   style.css — Windows Clipboard Viewer
+   ============================================================ */
+
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #22263a;
+  --border: #2e3249;
+  --accent: #6c8ef5;
+  --accent-dim: #3a4a8a;
+  --text: #e2e5f0;
+  --text-muted: #7880a0;
+  --green: #4ade80;
+  --yellow: #facc15;
+  --red: #f87171;
+  --orange: #fb923c;
+  --radius: 8px;
+  --font-mono: "Cascadia Code", "Fira Code", "Consolas", monospace;
+  --font-ui: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+html {
+  font-size: 15px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+a { color: var(--accent); }
+
+/* ── Layout ───────────────────────────────────────────────── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+}
+
+header h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+header h1 span {
+  color: var(--accent);
+}
+
+header p {
+  margin-top: 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  max-width: 70ch;
+}
+
+main {
+  flex: 1;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* ── Paste hint ────────────────────────────────────────────── */
+.paste-hint {
+  font-size: 1rem;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 1.25rem;
+}
+
+.paste-hint kbd {
+  display: inline-block;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+/* ── Status ───────────────────────────────────────────────── */
+.status {
+  font-size: 0.875rem;
+  color: var(--green);
+  min-height: 1.2em;
+}
+
+.status.error {
+  color: var(--red);
+}
+
+/* ── Result sections ──────────────────────────────────────── */
+#results {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item-section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.item-section h3 {
+  background: var(--surface2);
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.format-block {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.format-block:last-child {
+  border-bottom: none;
+}
+
+/* ── Format header (badges) ───────────────────────────────── */
+.format-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.mime-badge {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  background: var(--accent-dim);
+  color: #aec0ff;
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+}
+
+.win-badges {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.win-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  background: #1e2d1e;
+  color: var(--green);
+  border: 1px solid #2d4a2d;
+  border-radius: 4px;
+  padding: 0.12rem 0.45rem;
+}
+
+/* ── Notes ────────────────────────────────────────────────── */
+.format-note {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.format-note.error {
+  color: var(--red);
+}
+
+/* ── Content renderings ───────────────────────────────────── */
+.format-content {
+  margin-top: 0.5rem;
+}
+
+.content-pre {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-x: auto;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.content-pre.source {
+  max-height: 200px;
+}
+
+.html-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.html-preview {
+  width: 100%;
+  height: 180px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: #fff;
+}
+
+details summary {
+  font-size: 0.82rem;
+  color: var(--accent);
+  cursor: pointer;
+  user-select: none;
+  margin-top: 0.25rem;
+}
+
+details[open] summary {
+  margin-bottom: 0.4rem;
+}
+
+.content-image {
+  max-width: 100%;
+  max-height: 320px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  display: block;
+}
+
+.image-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+.file-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.file-list li {
+  font-size: 0.85rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.4rem 0.75rem;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--accent);
+  border: 1px solid var(--accent-dim);
+  border-radius: 5px;
+  padding: 0.3rem 0.7rem;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.download-btn:hover {
+  background: var(--accent-dim);
+}
+
+/* ── Coverage table ───────────────────────────────────────── */
+#coverage-section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+#coverage-section h2 {
+  background: var(--surface2);
+  padding: 0.65rem 1rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+thead th {
+  background: var(--surface);
+  color: var(--text-muted);
+  text-align: left;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: var(--surface2);
+}
+
+tbody td {
+  padding: 0.55rem 0.9rem;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+tbody td code {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #aec0ff;
+}
+
+.status-cell {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-cell.avail   { color: var(--green); }
+.status-cell.partial { color: var(--yellow); }
+.status-cell.unavail { color: var(--text-muted); }
+.status-cell.blocked { color: var(--red); }
+
+/* ── Footer ───────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1rem 2rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+footer span {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+footer .dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+footer .dot.green  { background: var(--green); }
+footer .dot.yellow { background: var(--yellow); }
+footer .dot.red    { background: var(--red); }
+
+/* ── Intro box ────────────────────────────────────────────── */
+.intro-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+
+.intro-box p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 90ch;
+}
+
+.intro-box strong {
+  color: var(--text);
+}
+
+.intro-box ul {
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.intro-box code {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background: var(--bg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  color: #aec0ff;
+}
+
+.intro-box .blocked-list {
+  color: var(--red);
+  opacity: 0.85;
+}
