@@ -65,7 +65,7 @@ header p {
   margin-top: 0.35rem;
   color: var(--text-muted);
   font-size: 0.875rem;
-  max-width: 70ch;
+  max-width: 180ch;
 }
 
 main {
@@ -267,6 +267,16 @@ details[open] summary {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.table-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.table-btn-row .download-btn {
+  margin-top: 0;
 }
 
 .table-label {
