@@ -1,27 +1,4 @@
-/**
- * clipboard.js
- * Reads the browser-visible clipboard contents and maps them
- * to the corresponding Windows clipboard (CF_*) format equivalents.
- *
- * What is and is not accessible from a normal webpage:
- *   Accessible (via browser Clipboard API or paste event):
- *     text/plain      → CF_TEXT / CF_UNICODETEXT
- *     text/html       → HTML Format (registered clipboard format, not a raw CF_ ID)
- *     image/png       → CF_BITMAP / CF_DIB (browser converts to PNG)
- *     Files           → CF_HDROP (partial — paste event only, file metadata but not raw paths)
- *
- *   NOT accessible from a browser page (OS sandbox restriction):
- *     CF_ENHMETAFILE  — Enhanced Metafile handle; requires Win32 GetClipboardData(CF_ENHMETAFILE)
- *     CF_METAFILEPICT — Legacy Metafile Picture; requires Win32 GetClipboardData(CF_METAFILEPICT)
- *     CF_LOCALE       — LCID handle; requires Win32 GetClipboardData(CF_LOCALE)
- *     Raw CF_HDROP    — Exact file paths are blocked; only File objects with name/size/type
- */
-
 "use strict";
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
 
 /**
  * Maps each browser MIME type to the Windows CF_* format(s) it corresponds to,

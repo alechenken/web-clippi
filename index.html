@@ -13,19 +13,32 @@
     <h1>Windows <span>Clipboard Viewer</span></h1>
     <p>
       Inspect all clipboard contents that the browser can access — including text,
-      HTML, images, and files — and see how each maps to standard Windows
-      <code>CF_*</code> clipboard format identifiers.
+      HTML, images, and files. The browser Clipboard API exposes data in your clipboard and its various
+        types. This page leverages the API to allow you to see text, images, html, and their types, as well as further
+        alter, copy, or use the different types for your purposes.
     </p>
   </header>
 
   <!-- ── Main ─────────────────────────────────────────────── -->
   <main>
 
-    <!-- Intro / limitation notice -->
-    <div class="intro-box" role="note">
+    <!-- Paste instruction -->
+    <p class="paste-hint">Press <kbd>Ctrl+V</kbd> anywhere on the page to inspect your clipboard.<br><br>Things to try: 
+    paste code from VS Code to see HTML color formatting. Paste vector images from draw.io to see the raw vector 
+    parameters.</p>
+
+    <!-- Status line -->
+    <p id="status" class="status" aria-live="polite"></p>
+
+    <!-- Per-format results -->
+    <div id="results" aria-label="Clipboard contents"></div>
+
+    <!-- CF_* coverage table (hidden until data is available) -->
+    <section id="coverage-section" hidden aria-label="Windows clipboard format coverage">
+      <h2>Windows Clipboard Format Coverage</h2>
+      <div class="intro-box" role="note">
       <p>
-        <strong>How this works:</strong> The browser Clipboard API exposes data as MIME-typed
-        blobs, not raw Windows clipboard handles. The table below maps what the browser can read
+        <strong>How this works:</strong> The table below maps what the browser can read
         to the corresponding Windows <code>CF_*</code> format — and identifies which formats are
         permanently blocked by the browser sandbox.
       </p>
@@ -39,20 +52,7 @@
           — <strong>not accessible</strong> from any browser page; require native Win32 access
         </li>
       </ul>
-    </div>
-
-    <!-- Paste instruction -->
-    <p class="paste-hint">Press <kbd>Ctrl+V</kbd> anywhere on the page to inspect your clipboard.</p>
-
-    <!-- Status line -->
-    <p id="status" class="status" aria-live="polite"></p>
-
-    <!-- Per-format results -->
-    <div id="results" aria-label="Clipboard contents"></div>
-
-    <!-- CF_* coverage table (hidden until data is available) -->
-    <section id="coverage-section" hidden aria-label="Windows clipboard format coverage">
-      <h2>Windows Clipboard Format Coverage</h2>
+      </div>
       <div class="table-wrap">
         <table>
           <thead>
