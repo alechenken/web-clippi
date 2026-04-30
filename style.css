@@ -445,32 +445,68 @@ tbody td code {
 .status-cell.blocked { color: var(--red); }
 
 /* ── Footer ───────────────────────────────────────────────── */
-footer {
+.site-footer {
   border-top: 1px solid var(--border);
-  padding: 1rem 2rem;
-  font-size: 0.78rem;
+  background: linear-gradient(180deg, rgba(34, 38, 58, 0.35), rgba(15, 17, 23, 0));
+  padding: 1rem 2rem 1.2rem;
   color: var(--text-muted);
+}
+
+.footer-top {
   display: flex;
-  gap: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
   flex-wrap: wrap;
 }
 
-footer span {
+.footer-title {
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.footer-title a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.footer-title a:hover {
+  border-bottom-color: var(--accent);
+}
+
+.footer-links {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-link {
+  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  font-size: 0.78rem;
+  color: #aec0ff;
+  text-decoration: none;
+  border: 1px solid var(--accent-dim);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  transition: background 0.15s, border-color 0.15s;
 }
 
-footer .dot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+.footer-link:hover {
+  background: rgba(108, 142, 245, 0.15);
+  border-color: var(--accent);
 }
 
-footer .dot.green  { background: var(--green); }
-footer .dot.yellow { background: var(--yellow); }
-footer .dot.red    { background: var(--red); }
+.footer-link.sponsor {
+  color: var(--green);
+  border-color: rgba(74, 222, 128, 0.55);
+}
+
+.footer-link.sponsor:hover {
+  background: rgba(74, 222, 128, 0.14);
+  border-color: var(--green);
+}
 
 /* ── Intro box ────────────────────────────────────────────── */
 .intro-box {
