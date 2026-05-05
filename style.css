@@ -548,3 +548,53 @@ tbody td code {
   color: var(--red);
   opacity: 0.85;
 }
+
+/* ── Manual expandable ───────────────────────────────────── */
+.manual-expandable {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.manual-expandable > summary {
+  list-style: none;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  padding: 0.65rem 1rem;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.manual-expandable > summary::-webkit-details-marker {
+  display: none;
+}
+
+.manual-expandable > summary::after {
+  content: "\25B8";
+  float: right;
+  transition: transform 0.15s ease;
+}
+
+.manual-expandable[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+.manual-expandable-content {
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  margin: 0.9rem 1rem 1rem;
+  min-height: 140px;
+  padding: 0.8rem;
+  white-space: pre-wrap;
+}
+
+.manual-expandable-content:focus {
+  border-color: var(--accent);
+  outline: none;
+}
