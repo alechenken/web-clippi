@@ -77,6 +77,10 @@ function clearResults() {
     $("coverage-body").innerHTML = "";
     $("status").textContent = "";
     $("coverage-section").hidden = true;
+    const coverageToggle = $("coverage-toggle");
+    const coverageContent = $("coverage-content");
+    if (coverageToggle) coverageToggle.setAttribute("aria-expanded", "false");
+    if (coverageContent) coverageContent.hidden = true;
 }
 
 function setStatus(msg, isError = false) {
@@ -391,6 +395,19 @@ function buildCoverageTable(seenMimeTypes, hasFiles) {
     }
 
     $("coverage-section").hidden = false;
+    const coverageToggle = $("coverage-toggle");
+    const coverageContent = $("coverage-content");
+    if (coverageToggle) coverageToggle.setAttribute("aria-expanded", "false");
+    if (coverageContent) coverageContent.hidden = true;
+}
+
+function toggleCoverageSection() {
+    const coverageToggle = $("coverage-toggle");
+    const coverageContent = $("coverage-content");
+    if (!coverageToggle || !coverageContent) return;
+    const isExpanded = coverageToggle.getAttribute("aria-expanded") === "true";
+    coverageToggle.setAttribute("aria-expanded", String(!isExpanded));
+    coverageContent.hidden = isExpanded;
 }
 
 // ---------------------------------------------------------------------------
@@ -569,4 +586,6 @@ function escapeHtml(str) {
 
 document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("paste", handlePaste);
+    const coverageToggle = $("coverage-toggle");
+    if (coverageToggle) coverageToggle.addEventListener("click", toggleCoverageSection);
 });
