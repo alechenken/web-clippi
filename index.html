@@ -34,54 +34,6 @@
     <!-- Per-format results -->
     <div id="results" aria-label="Clipboard contents"></div>
 
-    <!-- CF_* coverage table (hidden until data is available) -->
-    <section id="coverage-section" hidden aria-label="Windows clipboard format coverage">
-      <h2>Windows Clipboard Format Coverage</h2>
-      <div class="intro-box" role="note">
-      <p>
-        <strong>How this works:</strong> The table below maps what the browser can read
-        to the corresponding Windows <code>CF_*</code> format — and identifies which formats are
-        permanently blocked by the browser sandbox.
-      </p>
-      <ul>
-        <li><code>CF_TEXT</code> / <code>CF_UNICODETEXT</code> — available as <code>text/plain</code></li>
-        <li><code>HTML Format</code> — available as <code>text/html</code></li>
-        <li><code>CF_BITMAP</code> / <code>CF_DIB</code> — available as <code>image/png</code> (browser converts)</li>
-        <li><code>CF_HDROP</code> — partially available via paste event (file names and sizes; <em>not</em> full paths)</li>
-        <li class="blocked-list">
-          <code>CF_ENHMETAFILE</code>, <code>CF_METAFILEPICT</code>, <code>CF_LOCALE</code>
-          — <strong>not accessible</strong> from any browser page; require native Win32 access
-        </li>
-      </ul>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Windows Format</th>
-              <th>CF Value</th>
-              <th>Browser MIME / Source</th>
-              <th>Status</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody id="coverage-body"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <details id="manual-expandable" class="manual-expandable">
-      <summary>Manual Expandable Section</summary>
-      <div
-        id="manual-expandable-content"
-        class="manual-expandable-content"
-        contenteditable="true"
-        spellcheck="false"
-      >
-        Add your custom content here.
-      </div>
-    </details>
-
   </main>
 
   <!-- ── Footer ───────────────────────────────────────────── -->
